@@ -22,6 +22,7 @@ class MultipleSearchSelection extends StatefulWidget {
     this.onItemAdded,
     this.onItemRemoved,
     this.onTapShowedItem,
+    this.onSearchSubmit,
     this.title,
     this.titlePadding,
     this.maximumShowItemsHeight = 150,
@@ -204,6 +205,9 @@ class MultipleSearchSelection extends StatefulWidget {
 
   /// A callback when an item is added, returns the item aswell.
   final Function(String)? onItemAdded;
+
+  /// A callback when search bar summit some data.
+  final Function(String)? onSearchSubmit;
 
   /// [TextStyle] of the showed items.
   final TextStyle? showedItemTextStyle;
@@ -778,6 +782,9 @@ class _MultipleSearchSelectionState extends State<MultipleSearchSelection> {
                 }
                 expanded = true;
                 setState(() {});
+              },
+              onSubmitted: (value) {
+                widget.onSearchSubmit?.call(value);
               },
             ),
           ),

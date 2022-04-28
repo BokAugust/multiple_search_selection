@@ -783,9 +783,7 @@ class _MultipleSearchSelectionState extends State<MultipleSearchSelection> {
                 expanded = true;
                 setState(() {});
               },
-              onSubmitted: (value) {
-                widget.onSearchSubmit?.call(value);
-              },
+              onSubmitted: widget.onSearchSubmit,
             ),
           ),
           Container(

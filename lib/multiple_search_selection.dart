@@ -783,7 +783,26 @@ class _MultipleSearchSelectionState extends State<MultipleSearchSelection> {
                 expanded = true;
                 setState(() {});
               },
-              onSubmitted: widget.onSearchSubmit,
+              onSubmitted: (value) {
+                if (widget.fuzzySearch == FuzzySearch.jaro) {
+                  showedItems = allItems.where(
+                    (p) {
+                      return p.toLowerCase().contains(value) || (getJaro(p, value) >= 0.8);
+                    },
+                  ).toList();
+                } else if (widget.fuzzySearch == FuzzySearch.levenshtein) {
+                  showedItems = allItems.where(
+                    (p) {
+                      return p.toLowerCase().contains(value) || (getLevenshtein(p, value) <= 2);
+                    },
+                  ).toList();
+                } else {
+                  showedItems = allItems.where((p) => p.toLowerCase().contains(value)).toList();
+                }
+                expanded = true;
+                widget.onSearchSubmit?.call(value);
+                setState(() {});
+              },
             ),
           ),
           Container(
